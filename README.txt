@@ -1,0 +1,1 @@
+This is the beginning of a C++ neural network that is supposed to learn colors.
