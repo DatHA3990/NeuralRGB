@@ -1,8 +1,5 @@
 ﻿  NeuralRGB.cpp
-c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(78): warning C4551: function call missing argument list
-c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(68): warning C4715: 'getBoolInput': not all control paths return a value
-c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(79): warning C4715: 'getNewTolerance': not all control paths return a value
+c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(24): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(80): warning C4715: 'getBoolInput': not all control paths return a value
   NeuralRGB.vcxproj -> C:\hACKed\programming\c++\AI - PERSONNAL ASSISTANT\NeuralRGB\x64\Debug\NeuralRGB.exe
   NeuralRGB.vcxproj -> C:\hACKed\programming\c++\AI - PERSONNAL ASSISTANT\NeuralRGB\x64\Debug\NeuralRGB.pdb (Partial PDB)
