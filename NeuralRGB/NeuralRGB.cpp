@@ -13,7 +13,7 @@
 #include <vector>
 
 #define NUM_FILE 10
-#define NUM_COLOR 3
+#define NUM_COLOR 4
 
 struct Color {
 	std::string colorName;
@@ -37,14 +37,14 @@ cv::Scalar getAvg(std::vector<cv::Scalar> imgData) {
 void training(std::vector<Color> &color) {
 	for (int j = 0; j < NUM_COLOR; j++) {
 		std::ifstream file;
-		std::string nfname = "../TrainData/" + std::to_string(j + 1) + "/0.txt";
+		std::string nfname = "../TrainData/" + std::to_string(j) + "/name.txt";
 		file.open(nfname);
 		std::string colorName;
 		file >> colorName;
 		file.close();
 		std::vector<cv::Scalar> imgData;
-		for (int i = 1; i <= NUM_FILE; i++) {
-			std::string fname = "../TrainData/" + std::to_string(j + 1) + "/" + std::to_string(i) + ".jpg";
+		for (int i = 0; i < NUM_FILE; i++) {
+			std::string fname = "../TrainData/" + std::to_string(j) + "/" + std::to_string(i) + ".jpg";
 			cv::Mat image = cv::imread(fname, cv::IMREAD_COLOR);
 			cv::Scalar imgBgr = cv::mean(image);
 			imgData.push_back(imgBgr);
@@ -139,7 +139,7 @@ Color colorGuest(std::vector<Color> color, std::string fname) {
 }
 
 int main() {
-	std::cout << "1.05" << std::endl << std::endl;
+	std::cout << "1.06" << std::endl << std::endl;
 
 	std::vector<Color> color;
 	training(color);
@@ -151,8 +151,7 @@ int main() {
 		test(color[0], "../TestData/purple.jpg", "purple");
 	}
 	*/
-	colorGuest(color, "../TestData/green.jpg");
-	colorGuest(color, "../TestData/red.jpg");
-	colorGuest(color, "../TestData/blue.jpg");
+	colorGuest(color, "../TestData/orange.jpg");
+	colorGuest(color, "..\TestData/red.jpg");
 	while (1);
 }
