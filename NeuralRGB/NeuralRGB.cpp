@@ -1,9 +1,12 @@
+// visual studio mandatory include file
 #include "stdafx.h"
 
+// open cv libraries
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
+// std libraries
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -15,12 +18,14 @@
 #define NUM_FILE 10
 #define NUM_COLOR 4
 
+// define a new color that we learned of compare
 struct Color {
 	std::string colorName;
 	cv::Scalar bgr;
 	double tolerance = 1;
 };
 
+// get the average BGR of a vector of images BGR value
 cv::Scalar getAvg(std::vector<cv::Scalar> imgData) {
 	cv::Scalar avg;
 	for (int i = 0; i < 3; i++)
@@ -34,6 +39,7 @@ cv::Scalar getAvg(std::vector<cv::Scalar> imgData) {
 	return avg;
 }
 
+// train the neural network
 void training(std::vector<Color> &color) {
 	for (int j = 0; j < NUM_COLOR; j++) {
 		std::ifstream file;
@@ -59,10 +65,12 @@ void training(std::vector<Color> &color) {
 	std::cout << std::endl;
 }
 
+// is the color close enough to the one we want
 bool isColor(double percentage, double tolerance) {
 	return percentage >= tolerance;
 }
 
+// get the best match of color, in other words, it will get the color that looks the most alike to the one we inputed
 Color getHighestMatchColor(std::vector<Color> color, std::vector<double> accuracy) {
 	double bestMatch = *std::max_element(accuracy.begin(), accuracy.end());
 	int distance = std::distance(accuracy.begin(), std::find(accuracy.begin(), accuracy.end(), bestMatch));
@@ -70,6 +78,7 @@ Color getHighestMatchColor(std::vector<Color> color, std::vector<double> accurac
 	return color[distance];
 }
 
+// get a boolean input from user
 bool getBoolInput() {
 	std::cout << "Was I correct? 1:Yes 0:No >>>";
 	std::string x;
@@ -82,6 +91,7 @@ bool getBoolInput() {
 		getBoolInput();
 }
 
+// change to tolerance according to what we get so that we can get better
 double getNewTolerance(double tolerance, bool attempt, bool isCorrect) {
 	if (isCorrect == true)
 		return tolerance;
@@ -93,6 +103,7 @@ double getNewTolerance(double tolerance, bool attempt, bool isCorrect) {
 		return tolerance;
 }
 
+// get, in percentage, the ressemblance between 2 color
 double getColorAccuracy(cv::Scalar color1, cv::Scalar color2) {
 	cv::Scalar difference;
 	double accuracy = 0;
@@ -103,6 +114,7 @@ double getColorAccuracy(cv::Scalar color1, cv::Scalar color2) {
 	return 1 - ((accuracy / 3) / 255);
 }
 
+// test if we could see if a color is the one we want
 void test(Color &color, std::string fname, std::string testedColorName) {
 	cv::Mat image = cv::imread(fname, cv::IMREAD_COLOR);
 	cv::Scalar imgBgr = cv::mean(image);
@@ -111,16 +123,17 @@ void test(Color &color, std::string fname, std::string testedColorName) {
 	double accuracy = getColorAccuracy(color.bgr, imgBgr);
 	std::cout << accuracy << std::endl;
 
-	bool isBlue = isColor(accuracy, color.tolerance);
+	bool isInputColor = isColor(accuracy, color.tolerance);
 
-	std::string message = testedColorName + (isBlue ? " is " : " is not ") + color.colorName;
+	std::string message = testedColorName + (isInputColor ? " is " : " is not ") + color.colorName;
 	std::cout << message << std::endl;
 
 	bool correct = getBoolInput();
-	color.tolerance = getNewTolerance(color.tolerance, isBlue, correct);
+	color.tolerance = getNewTolerance(color.tolerance, isInputColor, correct);
 	std::cout << color.tolerance << std::endl << std::endl;
 }
 
+// guest the color
 Color colorGuest(std::vector<Color> color, std::string fname) {
 	cv::Mat image = cv::imread(fname, cv::IMREAD_COLOR);
 	cv::Scalar imgBgr = cv::mean(image);
@@ -133,16 +146,21 @@ Color colorGuest(std::vector<Color> color, std::string fname) {
 	double maxVal = *std::max_element(accuracy.begin(), accuracy.end());
 	int loc = std::distance(accuracy.begin(), std::find(accuracy.begin(), accuracy.end(), maxVal));
 	Color bestColor = color[loc];
-	std::cout << bestColor.colorName << std::endl;
 
+	for (int i = 0; i < color.size(); i++)
+		std::cout << color[i].colorName << " : " << accuracy[i] << std::endl;
+	std::cout << bestColor.colorName << std::endl;
 	return bestColor;
 }
 
+// main
 int main() {
-	std::cout << "1.06" << std::endl << std::endl;
+	std::cout << "1.07" << std::endl << std::endl; // print code version
 
-	std::vector<Color> color;
-	training(color);
+	std::vector<Color> color; // color vector
+	training(color);          // train neural net and store learned color in vector
+
+	// TESTS
 
 	/*
 	while (true) {
@@ -153,5 +171,6 @@ int main() {
 	*/
 	colorGuest(color, "../TestData/orange.jpg");
 	colorGuest(color, "..\TestData/red.jpg");
+
 	while (1);
 }
