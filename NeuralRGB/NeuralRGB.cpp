@@ -109,7 +109,7 @@ Color colorGuest(std::vector<Color> color, std::string fname) {
 
 // main
 int main() {
-	std::cout << "1.08" << std::endl << std::endl; // print code version
+	std::cout << "1.09" << std::endl << std::endl; // print code version
 
 	std::vector<Color> color; // color vector
 	training(color);          // train neural net and store learned color in vector
