@@ -16,7 +16,7 @@
 #include <vector>
 
 #define NUM_FILE 10
-#define NUM_COLOR 4
+#define NUM_COLOR 6
 
 // define a new color that we learned of compare
 struct Color {
