@@ -1,8 +1,8 @@
 ﻿  NeuralRGB.cpp
-c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(28): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(68): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(134): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(159): warning C4129: 'T': unrecognized character escape sequence
-c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(83): warning C4715: 'getBoolInput': not all control paths return a value
+c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(87): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(158): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(184): warning C4129: 'T': unrecognized character escape sequence
+c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(103): warning C4715: 'getBoolInput': not all control paths return a value
   NeuralRGB.vcxproj -> C:\hACKed\programming\c++\AI - PERSONNAL ASSISTANT\NeuralRGB\x64\Debug\NeuralRGB.exe
   NeuralRGB.vcxproj -> C:\hACKed\programming\c++\AI - PERSONNAL ASSISTANT\NeuralRGB\x64\Debug\NeuralRGB.pdb (Partial PDB)
