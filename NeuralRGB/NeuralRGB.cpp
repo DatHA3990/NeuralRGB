@@ -110,7 +110,7 @@ Color colorGuest(std::vector<Color> color, cv::Mat image) {
 
 // main
 int main() {
-	std::cout << "1.14" << std::endl << std::endl; // print code version
+	std::cout << "1.15" << std::endl << std::endl; // print code version
 
 	std::vector<Color> color; // color vector
 	training(color);          // train neural net and store learned color in vector
