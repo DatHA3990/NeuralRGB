@@ -12,13 +12,13 @@
 
 // std libraries
 #include <fstream>
-#include <iostream>
 #include <ios>
+#include <iostream>
 #include <string>
 #include <vector>
 
 #define NUM_FILE 10
-#define NUM_COLOR 5
+#define NUM_COLOR 6
 
 // define a new color that we learned of compare
 struct Color {
@@ -95,7 +95,7 @@ Color colorGuest(std::vector<Color> color, cv::Mat image) {
 	std::vector<double> accuracy;
 
 	for (int i = 0; i < color.size(); i++)
-		accuracy.push_back((getColorAccuracy(imgDifference, color[i].difference) + getColorAccuracy(imgBgr, color[i].bgr)) / 2);
+		accuracy.push_back((getColorAccuracy(imgDifference, color[i].difference)));
 
 	double maxVal = *std::max_element(accuracy.begin(), accuracy.end());
 	int loc = std::distance(accuracy.begin(), std::find(accuracy.begin(), accuracy.end(), maxVal));
@@ -110,7 +110,7 @@ Color colorGuest(std::vector<Color> color, cv::Mat image) {
 
 // main
 int main() {
-	std::cout << "1.15" << std::endl << std::endl; // print code version
+	std::cout << "1.16" << std::endl << std::endl; // print code version
 
 	std::vector<Color> color; // color vector
 	training(color);          // train neural net and store learned color in vector
@@ -118,6 +118,5 @@ int main() {
 	// TESTTING SEGMENTS
 
 	colorGuest(color, cv::imread("../TestData/darkblue.jpg", cv::IMREAD_COLOR));
-	colorGuest(color, cv::imread("../TestData/lightblue.jpg", cv::IMREAD_COLOR));
 	while (1);
 }
