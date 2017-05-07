@@ -2,27 +2,28 @@
 #include "stdafx.h"
 
 // open cv libraries
+#include <opencv2\opencv.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
+// windows library
+#include <Windows.h>
+
 // std libraries
 #include <fstream>
 #include <iostream>
-#include <map>
 #include <ios>
-#include <sstream>
 #include <string>
 #include <vector>
 
 #define NUM_FILE 10
-#define NUM_COLOR 6
+#define NUM_COLOR 5
 
 // define a new color that we learned of compare
 struct Color {
 	std::string colorName; // name of the color, ex. red, blue
 	cv::Scalar bgr;        // blue, green, and red values in that order
-	double tolerance = 1;  // what is the tolerance of this color
 	cv::Scalar difference; // what is the difference between, blue and green, green and red, and red and blue
 };
 
@@ -88,36 +89,35 @@ double getColorAccuracy(cv::Scalar color1, cv::Scalar color2) {
 }
 
 // guest the color
-Color colorGuest(std::vector<Color> color, std::string fname) {
-	cv::Mat image = cv::imread(fname, cv::IMREAD_COLOR);
+Color colorGuest(std::vector<Color> color, cv::Mat image) {
 	cv::Scalar imgBgr = cv::mean(image);
 	cv::Scalar imgDifference = getBgrDifference(imgBgr);
 	std::vector<double> accuracy;
 
 	for (int i = 0; i < color.size(); i++)
-		accuracy.push_back(getColorAccuracy(imgBgr, color[i].bgr));
+		accuracy.push_back((getColorAccuracy(imgDifference, color[i].difference) + getColorAccuracy(imgBgr, color[i].bgr)) / 2);
 
 	double maxVal = *std::max_element(accuracy.begin(), accuracy.end());
 	int loc = std::distance(accuracy.begin(), std::find(accuracy.begin(), accuracy.end(), maxVal));
 	Color bestColor = color[loc];
 
+	std::cout << imgBgr << std::endl;
 	for (int i = 0; i < color.size(); i++)
 		std::cout << color[i].colorName << " : " << accuracy[i] << std::endl;
-	std::cout << bestColor.colorName << std::endl;
+	std::cout << bestColor.colorName << std::endl << std::endl;
 	return bestColor;
 }
 
 // main
 int main() {
-	std::cout << "1.09" << std::endl << std::endl; // print code version
+	std::cout << "1.14" << std::endl << std::endl; // print code version
 
 	std::vector<Color> color; // color vector
 	training(color);          // train neural net and store learned color in vector
 
-	// TESTS
+	// TESTTING SEGMENTS
 
-	colorGuest(color, "../TestData/orange.jpg");
-	colorGuest(color, "..\TestData/red.jpg");
-
+	colorGuest(color, cv::imread("../TestData/darkblue.jpg", cv::IMREAD_COLOR));
+	colorGuest(color, cv::imread("../TestData/lightblue.jpg", cv::IMREAD_COLOR));
 	while (1);
 }
