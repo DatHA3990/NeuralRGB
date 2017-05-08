@@ -17,8 +17,11 @@
 #include <string>
 #include <vector>
 
-#define NUM_FILE 10
-#define NUM_COLOR 6
+// Constant variables
+const int NUM_FILE = 10;
+const int NUM_COLOR = 7;
+const float NUM_VERSION = 1.21;
+const std::string TRAIN_DATA_FOLDER = "../TrainData/";
 
 // define a new color that we learned of compare
 struct Color {
@@ -54,14 +57,14 @@ cv::Scalar getBgrDifference(cv::Scalar bgr) {
 void training(std::vector<Color> &color) {
 	for (int j = 0; j < NUM_COLOR; j++) {
 		std::ifstream file;
-		std::string nfname = "../TrainData/" + std::to_string(j) + "/name.txt";
+		std::string nfname = TRAIN_DATA_FOLDER + std::to_string(j) + "/name.txt";
 		file.open(nfname);
 		std::string colorName;
 		file >> colorName;
 		file.close();
 		std::vector<cv::Scalar> imgData;
 		for (int i = 0; i < NUM_FILE; i++) {
-			std::string fname = "../TrainData/" + std::to_string(j) + "/" + std::to_string(i) + ".jpg";
+			std::string fname = TRAIN_DATA_FOLDER + std::to_string(j) + "/" + std::to_string(i) + ".jpg";
 			cv::Mat image = cv::imread(fname, cv::IMREAD_COLOR);
 			cv::Scalar imgBgr = cv::mean(image);
 			imgData.push_back(imgBgr);
@@ -110,13 +113,13 @@ Color colorGuest(std::vector<Color> color, cv::Mat image) {
 
 // main
 int main() {
-	std::cout << "1.16" << std::endl << std::endl; // print code version
+	std::cout << NUM_VERSION << std::endl << std::endl; // print code version
 
 	std::vector<Color> color; // color vector
 	training(color);          // train neural net and store learned color in vector
 
 	// TESTTING SEGMENTS
 
-	colorGuest(color, cv::imread("../TestData/darkblue.jpg", cv::IMREAD_COLOR));
+	colorGuest(color, cv::imread("../TestData/yellow.jpg", cv::IMREAD_COLOR));
 	while (1);
 }
