@@ -11,7 +11,7 @@
 
 const int NUM_FILE = 10;
 const int NUM_COLOR = 7;
-const float NUM_VERSION = 1.5;
+const float NUM_VERSION = 1.51;
 const std::string TRAIN_DATA_FOLDER = "../TrainData/";
 
 struct Color {
