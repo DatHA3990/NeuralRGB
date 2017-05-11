@@ -30,11 +30,7 @@ cv::Scalar getAverage(std::vector<cv::Scalar> imgData) {
 }
 
 cv::Scalar getBgrDifference(cv::Scalar bgr) {
-	cv::Scalar difference;
-	difference[0] = bgr[0] - bgr[1];
-	difference[1] = bgr[1] - bgr[2];
-	difference[2] = bgr[2] - bgr[0];
-	return difference;
+	return { bgr[0] - bgr[1], bgr[1] - bgr[2], bgr[2] - bgr[0] };
 }
 
 std::vector<Color> getTrainedColorVector() {
@@ -44,21 +40,14 @@ std::vector<Color> getTrainedColorVector() {
 		{
 			std::ifstream file{ TRAIN_DATA_FOLDER + std::to_string(j) + "/name.txt" };
 			file >> colorName;
-			file.close();
 		}
 		std::vector<cv::Scalar> imgData;
 		for (int i = 0; i < NUM_FILE; i++) {
-			std::string fname = TRAIN_DATA_FOLDER + std::to_string(j) + "/" + std::to_string(i) + ".jpg";
-			cv::Mat image = cv::imread(fname, cv::IMREAD_COLOR);
-			cv::Scalar imgBgr = cv::mean(image);
-			imgData.push_back(imgBgr);
+			imgData.push_back(cv::mean(cv::imread(TRAIN_DATA_FOLDER + std::to_string(j) + "/" + std::to_string(i) + ".jpg", cv::IMREAD_COLOR)));
 			cv::waitKey(1);
 		}
-		Color currentColor;
-		currentColor.colorName = colorName;
-		currentColor.bgr = getAverage(imgData);
-		currentColor.difference = getBgrDifference(currentColor.bgr);
-		color.push_back(currentColor);
+		cv::Scalar colorBgr = getAverage(imgData);
+		color.push_back({ colorName, colorBgr,  getBgrDifference(colorBgr) });
 	}
 	return color;
 }
@@ -74,10 +63,7 @@ double getColorAccuracy(cv::Scalar color1, cv::Scalar color2) {
 Color getColorGuest(std::vector<Color> color, cv::Mat image) {
 	cv::Scalar imgBgr = cv::mean(image);
 	cv::Scalar imgDifference = getBgrDifference(imgBgr);
-
-	auto it = std::max_element(color.begin(),
-		color.end(),
-		[imgDifference](const Color& a, const Color& b) {
+	auto it = std::max_element(color.begin(), color.end(), [imgDifference](const Color& a, const Color& b) {
 		return getColorAccuracy(imgDifference, a.difference) < getColorAccuracy(imgDifference, b.difference);
 	});
 	return *it;
