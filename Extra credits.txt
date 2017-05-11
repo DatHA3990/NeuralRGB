@@ -1,0 +1,2 @@
+Special thanks to user Toby Speight and miscco from the Code Review Stack Exchange for reviewing and helping me improve my code.
+See there answers here : https://codereview.stackexchange.com/questions/162913/color-guessing-code.

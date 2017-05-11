@@ -1,8 +1,6 @@
 ﻿  NeuralRGB.cpp
-c:\hacked\z-libraries\opencv\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.14393.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
-c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(23): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(38): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\hacked\programming\c++\ai - personnal assistant\neuralrgb\neuralrgb\neuralrgb.cpp(104): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-  NeuralRGB.vcxproj -> C:\hACKed\programming\c++\AI - PERSONNAL ASSISTANT\NeuralRGB\x64\Debug\NeuralRGB.exe
-  NeuralRGB.vcxproj -> C:\hACKed\programming\c++\AI - PERSONNAL ASSISTANT\NeuralRGB\x64\Debug\NeuralRGB.pdb (Partial PDB)
+c:\hacked\programming\c++\neuralrgb\neuralrgb\neuralrgb.cpp(14): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\hacked\programming\c++\neuralrgb\neuralrgb\neuralrgb.cpp(28): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'double', possible loss of data
+c:\hacked\programming\c++\neuralrgb\neuralrgb\neuralrgb.cpp(28): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'const double', possible loss of data
+  NeuralRGB.vcxproj -> C:\hACKed\programming\c++\NeuralRGB\x64\Debug\NeuralRGB.exe
+  NeuralRGB.vcxproj -> C:\hACKed\programming\c++\NeuralRGB\x64\Debug\NeuralRGB.pdb (Partial PDB)

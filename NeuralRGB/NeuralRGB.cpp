@@ -1,50 +1,34 @@
-// visual studio mandatory include file
 #include "stdafx.h"
 
-// open cv libraries
-#include <opencv2\opencv.hpp>
 #include <opencv2/core/core.hpp>
-#include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-// windows library
-#include <Windows.h>
-
-// std libraries
 #include <fstream>
 #include <ios>
 #include <iostream>
 #include <string>
 #include <vector>
 
-// Constant variables
 const int NUM_FILE = 10;
 const int NUM_COLOR = 7;
-const float NUM_VERSION = 1.21;
+const float NUM_VERSION = 1.5;
 const std::string TRAIN_DATA_FOLDER = "../TrainData/";
 
-// define a new color that we learned of compare
 struct Color {
-	std::string colorName; // name of the color, ex. red, blue
-	cv::Scalar bgr;        // blue, green, and red values in that order
-	cv::Scalar difference; // what is the difference between, blue and green, green and red, and red and blue
+	std::string colorName;
+	cv::Scalar bgr;
+	cv::Scalar difference;
 };
 
-// get the average BGR of a vector of images BGR value
-cv::Scalar getAvg(std::vector<cv::Scalar> imgData) {
-	cv::Scalar avg;
-	for (int i = 0; i < 3; i++)
-		avg[i] = 0;
-	int num = imgData.size();
-	for (int rgb = 0; rgb < 3; rgb++)
-		for (int i = 0; i < num; i++)
-			avg[rgb] += imgData[i][rgb];
-	for (int i = 0; i < 3; i++)
-		avg[i] /= num;
-	return avg;
+cv::Scalar getAverage(std::vector<cv::Scalar> imgData) {
+	cv::Scalar avg{ 0 };
+	for (auto const& img : imgData) {
+		avg += img;
+	}
+	double const n = imgData.size();
+	return avg / n;
 }
 
-// get the difference between, blue and green, green and red, and red and blue
 cv::Scalar getBgrDifference(cv::Scalar bgr) {
 	cv::Scalar difference;
 	difference[0] = bgr[0] - bgr[1];
@@ -53,15 +37,15 @@ cv::Scalar getBgrDifference(cv::Scalar bgr) {
 	return difference;
 }
 
-// train the neural network
-void training(std::vector<Color> &color) {
+std::vector<Color> getTrainedColorVector() {
+	std::vector<Color> color;
 	for (int j = 0; j < NUM_COLOR; j++) {
-		std::ifstream file;
-		std::string nfname = TRAIN_DATA_FOLDER + std::to_string(j) + "/name.txt";
-		file.open(nfname);
 		std::string colorName;
-		file >> colorName;
-		file.close();
+		{
+			std::ifstream file{ TRAIN_DATA_FOLDER + std::to_string(j) + "/name.txt" };
+			file >> colorName;
+			file.close();
+		}
 		std::vector<cv::Scalar> imgData;
 		for (int i = 0; i < NUM_FILE; i++) {
 			std::string fname = TRAIN_DATA_FOLDER + std::to_string(j) + "/" + std::to_string(i) + ".jpg";
@@ -72,54 +56,39 @@ void training(std::vector<Color> &color) {
 		}
 		Color currentColor;
 		currentColor.colorName = colorName;
-		currentColor.bgr = getAvg(imgData);
+		currentColor.bgr = getAverage(imgData);
 		currentColor.difference = getBgrDifference(currentColor.bgr);
 		color.push_back(currentColor);
-		std::cout << color[j].colorName << " : " << color[j].bgr << std::endl;
 	}
-	std::cout << std::endl;
+	return color;
 }
 
-// get, in percentage, the ressemblance between 2 color
 double getColorAccuracy(cv::Scalar color1, cv::Scalar color2) {
-	cv::Scalar difference;
 	double accuracy = 0;
+	const auto diff = color1 - color2;
 	for (int i = 0; i < 3; i++)
-		difference[i] = fabs(color1[i] - color2[i]);
-	for (int i = 0; i < 3; i++)
-		accuracy += difference[i];
+		accuracy += std::abs(diff[i]);
 	return 1 - ((accuracy / 3) / 255);
 }
 
-// guest the color
-Color colorGuest(std::vector<Color> color, cv::Mat image) {
+Color getColorGuest(std::vector<Color> color, cv::Mat image) {
 	cv::Scalar imgBgr = cv::mean(image);
 	cv::Scalar imgDifference = getBgrDifference(imgBgr);
-	std::vector<double> accuracy;
 
-	for (int i = 0; i < color.size(); i++)
-		accuracy.push_back((getColorAccuracy(imgDifference, color[i].difference)));
-
-	double maxVal = *std::max_element(accuracy.begin(), accuracy.end());
-	int loc = std::distance(accuracy.begin(), std::find(accuracy.begin(), accuracy.end(), maxVal));
-	Color bestColor = color[loc];
-
-	std::cout << imgBgr << std::endl;
-	for (int i = 0; i < color.size(); i++)
-		std::cout << color[i].colorName << " : " << accuracy[i] << std::endl;
-	std::cout << bestColor.colorName << std::endl << std::endl;
-	return bestColor;
+	auto it = std::max_element(color.begin(),
+		color.end(),
+		[imgDifference](const Color& a, const Color& b) {
+		return getColorAccuracy(imgDifference, a.difference) < getColorAccuracy(imgDifference, b.difference);
+	});
+	return *it;
 }
 
-// main
 int main() {
-	std::cout << NUM_VERSION << std::endl << std::endl; // print code version
+	std::cout << NUM_VERSION << '\n';
 
-	std::vector<Color> color; // color vector
-	training(color);          // train neural net and store learned color in vector
+	std::vector<Color> color = getTrainedColorVector();
 
-	// TESTTING SEGMENTS
-
-	colorGuest(color, cv::imread("../TestData/yellow.jpg", cv::IMREAD_COLOR));
+	Color match = getColorGuest(color, cv::imread("../TestData/yellow.jpg", cv::IMREAD_COLOR));
+	std::cout << match.colorName;
 	while (1);
 }
