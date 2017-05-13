@@ -1,6 +1,0 @@
-﻿  NeuralRGB.cpp
-c:\hacked\programming\c++\neuralrgb\neuralrgb\neuralrgb.cpp(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\hacked\programming\c++\neuralrgb\neuralrgb\neuralrgb.cpp(28): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'double', possible loss of data
-c:\hacked\programming\c++\neuralrgb\neuralrgb\neuralrgb.cpp(28): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'const double', possible loss of data
-  NeuralRGB.vcxproj -> C:\hACKed\programming\c++\NeuralRGB\x64\Debug\NeuralRGB.exe
-  NeuralRGB.vcxproj -> C:\hACKed\programming\c++\NeuralRGB\x64\Debug\NeuralRGB.pdb (Partial PDB)
