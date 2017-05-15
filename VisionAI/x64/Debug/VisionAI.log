@@ -1,6 +1,5 @@
-﻿  stdafx.cpp
-  VisionAI.cpp
-c:\hacked\programming\c++\visionai\visionai\visionai.cpp(14): warning C4305: 'initializing': truncation from 'double' to 'float'
+﻿  VisionAI.cpp
+c:\hacked\programming\c++\visionai\visionai\visionai.cpp(15): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\hacked\programming\c++\visionai\visionai\visionai.cpp(28): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'double', possible loss of data
 c:\hacked\programming\c++\visionai\visionai\visionai.cpp(28): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'const double', possible loss of data
   VisionAI.vcxproj -> C:\hACKed\programming\c++\VisionAI\x64\Debug\VisionAI.exe
